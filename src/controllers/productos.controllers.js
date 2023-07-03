@@ -26,3 +26,19 @@ export const crearProducto = async (req, res) => {
     });
   }
 };
+
+export const borrarProducto = async (req, res) => {
+  try {
+    // pedir a la base de datos borrar el producto
+    console.log(req.params.id);
+    await Producto.findByIdAndDelete(req.params.id);
+    res.status(200).json({
+      mensaje: "El producto se elimino correctamente",
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({
+      mensaje: "Error al eliminar el producto",
+    });
+  }
+};
