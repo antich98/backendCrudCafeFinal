@@ -1,5 +1,11 @@
 import { Router } from "express";
-import { borrarProducto, crearProducto, obtenerProductos, editarProducto } from "../controllers/productos.controllers";
+import {
+  borrarProducto,
+  crearProducto,
+  obtenerProductos,
+  editarProducto,
+  obtenerProducto,
+} from "../controllers/productos.controllers";
 
 const router = Router();
 
@@ -7,7 +13,11 @@ const router = Router();
     res.send('Esto es una respuesta a una peticion get');
   }) */
 
-router.route('/productos').get(obtenerProductos).post(crearProducto);
-router.route('/productos/:id').delete(borrarProducto).put(editarProducto);
+router.route("/productos").get(obtenerProductos).post(crearProducto);
+router
+  .route("/productos/:id")
+  .delete(borrarProducto)
+  .put(editarProducto)
+  .get(obtenerProducto);
 
 export default router;
