@@ -42,3 +42,17 @@ export const borrarProducto = async (req, res) => {
     });
   }
 };
+
+export const editarProducto = async (req, res) => {
+  try {
+    await Producto.findByIdAndUpdate(req.params.id, req.body);
+    res.status(200).json({
+      mensaje: "El producto se actualizo correctamente",
+    })
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      mensaje: "Error al editar el producto",
+    });
+  }
+};
