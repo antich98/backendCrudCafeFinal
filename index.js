@@ -5,6 +5,7 @@ import path from "path";
 import 'dotenv/config';
 import './src/database/dbConnection';
 import productosRouter from "./src/routes/productos.routes";
+import usuariosRouter from "./src/routes/usuarios.routes";
 
 //tomar un puerto
 //crear una instancia de express
@@ -25,4 +26,4 @@ app.use(express.static(path.join(__dirname, '/public'))); //esto nos permite pod
 //rutas
 //http://localhost:4000/productos
 app.use('/apiCafe', productosRouter);
-
+app.use('/apiCafe/auth', usuariosRouter);

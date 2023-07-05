@@ -12,6 +12,7 @@ export const obtenerProductos = async (req, res) => {
 };
 export const obtenerProducto = async (req, res) => {
   try {
+    //to do: verificar validationResult
     const producto = await Producto.findById(req.params.id);
     res.status(200).json(producto);
   } catch (error) {
