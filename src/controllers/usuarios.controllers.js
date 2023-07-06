@@ -1,4 +1,5 @@
 import Usuario from "../models/usuario";
+import { validationResult } from "express-validator";
 
 export const obtenerUsuarios = async(req,res) =>{
     try {

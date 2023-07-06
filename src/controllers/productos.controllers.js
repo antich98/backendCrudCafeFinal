@@ -1,3 +1,4 @@
+import { validationResult } from "express-validator";
 import Producto from "../models/producto";
 export const obtenerProductos = async (req, res) => {
   try {
@@ -12,20 +13,29 @@ export const obtenerProductos = async (req, res) => {
 };
 export const obtenerProducto = async (req, res) => {
   try {
-    //to do: verificar validationResult
     const producto = await Producto.findById(req.params.id);
     res.status(200).json(producto);
   } catch (error) {
     console.log(error);
     res.status(404).json({
-      mensaje: "Error al buscar el producto",
+      mensaje: "Error al busca el producto",
     });
   }
 };
 
 export const crearProducto = async (req, res) => {
   try {
-    //   console.log(req.body);
+    //todo: verificar validationResult
+    const errors = validationResult(req);
+    //errors.isEmpty(); true si esta vacio, false si hay almenos un error
+    //quiero preguntar si hay errores
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        errores: errors.array(),
+      });
+    }
+
+    // console.log(req.body);
     const productoNuevo = new Producto(req.body);
     await productoNuevo.save();
     res.status(201).json({
@@ -46,7 +56,7 @@ export const borrarProducto = async (req, res) => {
     await Producto.findByIdAndDelete(req.params.id);
     res.status(200).json({
       mensaje: "El producto se elimino correctamente",
-    })
+    });
   } catch (error) {
     console.log(error);
     res.status(404).json({
@@ -60,7 +70,7 @@ export const editarProducto = async (req, res) => {
     await Producto.findByIdAndUpdate(req.params.id, req.body);
     res.status(200).json({
       mensaje: "El producto se actualizo correctamente",
-    })
+    });
   } catch (error) {
     console.log(error);
     res.status(400).json({
