@@ -47,6 +47,11 @@ router
           /^(https?:\/\/)?(?:www\.)?[\w-]+\.[\w.-]+(?:\/[\w-./?%&=]*)?\.(?:jpg|jpeg|png|gif|bmp|jpeg\?[\w=&.]*)$/
         )
         .withMessage("La imagen debe ser una url valida"),
+      check("categoria")
+        .notEmpty()
+        .withMessage("La categoria es requerida")
+        .isIn(["bebida caliente", "bebida fria", "dulce", "salado"])
+        .withMessage("La categoria debe ser bebida caliente, bebida fria, dulce o salado")
     ],
     crearProducto
   );
