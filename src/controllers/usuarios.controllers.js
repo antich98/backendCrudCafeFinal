@@ -1,5 +1,5 @@
 import Usuario from "../models/usuario";
-import { validationResult } from "express-validator";
+import bcrypt from "bcrypt";
 
 export const obtenerUsuarios = async(req,res) =>{
     try {
@@ -20,10 +20,20 @@ export const obtenerUnUsuario = async(req,res) =>{
 }
 export const crearUsuario = async(req,res) =>{
     try {
+        //verificar si el mail ya existe
+        let consultaUsuario = await Usuario.findOne({email:req.body.email});
+        //si el usuario existe
+        if(consultaUsuario){
+            return res.status(400).json({mensaje:"El usuario ya existe"})
+        }
        const nuevoUsuario = new Usuario(req.body)
+       //encriptar la contrasena
+       const salt = bcrypt.genSaltSync(10);
+       nuevoUsuario.password = bcrypt.hashSync(nuevoUsuario.password,salt)
        await nuevoUsuario.save()
        res.status(201).json({mensaje:"Se creo un nuevo usuario"})
     } catch (error) {
+        console.log(error)
         res.status(400).json(error.message)
     }
 }
