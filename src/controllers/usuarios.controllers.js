@@ -48,8 +48,10 @@ export const login = async(req,res) =>{
             return res.status(404).json({mensaje:"correo o password invalido (correo)"
             })
         }
-        //preguntar por el password
-        if(usuario.password !== password){
+        //preguntar si el password no es valido
+        const passwordValido = bcrypt.compareSync(password,usuario.password);
+        //si el pasword no es valido, es decir es false
+        if(!passwordValido){
             return res.status(400).json({mensaje:"correo o password invalido (password)"})
         }
         //responder al front que el usuario es correcto
