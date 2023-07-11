@@ -27,3 +27,29 @@ export const crearUsuario = async(req,res) =>{
         res.status(400).json(error.message)
     }
 }
+
+export const login = async(req,res) =>{
+    try {
+        //verificar si existe el mail en la base de datos
+        const { email, password } = req.body;
+        let usuario = await Usuario.findOne({email});
+        //si no existe el usuario
+        if(!usuario){
+            return res.status(404).json({mensaje:"correo o password invalido (correo)"
+            })
+        }
+        //preguntar por el password
+        if(usuario.password !== password){
+            return res.status(400).json({mensaje:"correo o password invalido (password)"})
+        }
+        //responder al front que el usuario es correcto
+        res.status(200).json({
+            mensaje:"el usuario existe",
+            nombreUsuario: usuario.nombreUsuario,
+            uid: usuario._id
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(404).json('error al loguear un usuario');
+    }
+}
