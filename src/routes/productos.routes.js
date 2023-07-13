@@ -7,6 +7,7 @@ import {
   obtenerProducto,
 } from "../controllers/productos.controllers";
 import validarProducto from "../helpers/validarProducto";
+import validarJWT from "../helpers/token-verify";
 
 const router = Router();
 
@@ -18,7 +19,7 @@ router
   .route("/productos")
   .get(obtenerProductos)
   .post(
-    validarProducto ,
+    [validarJWT,validarProducto],
     crearProducto
   );
 router
